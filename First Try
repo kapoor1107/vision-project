@@ -1,0 +1,630 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled3.ipynb",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/kapoor1107/vision-project/blob/master/First%20Try\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "tlnp9j1sLInb",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 100
+        },
+        "outputId": "1c932911-4b43-460c-edb5-fb68754219d0"
+      },
+      "source": [
+        "!git clone https://github.com/kapoor1107/vision-project.git"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Cloning into 'vision-project'...\n",
+            "remote: Enumerating objects: 134, done.\u001b[K\n",
+            "remote: Total 134 (delta 0), reused 0 (delta 0), pack-reused 134\u001b[K\n",
+            "Receiving objects: 100% (134/134), 260.01 KiB | 964.00 KiB/s, done.\n",
+            "Resolving deltas: 100% (48/48), done.\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "wTf-3Q2JLMfB",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 33
+        },
+        "outputId": "bc356d94-3e97-4ffe-e56e-00cfb44d403c"
+      },
+      "source": [
+        "ls"
+      ],
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "\u001b[0m\u001b[01;34msample_data\u001b[0m/  \u001b[01;34mvision-project\u001b[0m/\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "VrDoBdDWLVdK",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 33
+        },
+        "outputId": "43db44da-e7c9-4bc7-b005-baa507e466a2"
+      },
+      "source": [
+        "pwd"
+      ],
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "'/content'"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 3
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GGsi_PzVLV7q",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 33
+        },
+        "outputId": "fc42e9f2-9cf6-4b4f-b2b8-07db615b4cc4"
+      },
+      "source": [
+        "cd vision-project/"
+      ],
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content/vision-project\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "o3OqOJIyLYZF",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 84
+        },
+        "outputId": "1927f852-0441-4360-bd28-86baed6748c6"
+      },
+      "source": [
+        "ls"
+      ],
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "haarcascade_frontalface_default.xml  run_classifier.py\n",
+            "inference.py                         test.jpg\n",
+            "README.md                            train_emotion_classifier.py\n",
+            "requirements.txt                     \u001b[0m\u001b[01;34mwandb\u001b[0m/\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "KDlPkyT1LwAr",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1000
+        },
+        "outputId": "b0fa3096-77b8-4cc0-91df-8234aedcf9e0"
+      },
+      "source": [
+        "!pip install wandb"
+      ],
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting wandb\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/46/7b/7d381b5c8345bb5c66bed293281d5c72f173027298e755b2ff2ed9971839/wandb-0.8.12-py2.py3-none-any.whl (1.3MB)\n",
+            "\u001b[K     |████████████████████████████████| 1.3MB 6.3MB/s \n",
+            "\u001b[?25hRequirement already satisfied: Click>=7.0 in /usr/local/lib/python3.6/dist-packages (from wandb) (7.0)\n",
+            "Collecting configparser>=3.8.1 (from wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/7a/2a/95ed0501cf5d8709490b1d3a3f9b5cf340da6c433f896bbe9ce08dbe6785/configparser-4.0.2-py2.py3-none-any.whl\n",
+            "Requirement already satisfied: nvidia-ml-py3>=7.352.0 in /usr/local/lib/python3.6/dist-packages (from wandb) (7.352.0)\n",
+            "Collecting shortuuid>=0.5.0 (from wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/80/d7/2bfc9332e68d3e15ea97b9b1588b3899ad565120253d3fd71c8f7f13b4fe/shortuuid-0.5.0.tar.gz\n",
+            "Requirement already satisfied: six>=1.10.0 in /usr/local/lib/python3.6/dist-packages (from wandb) (1.12.0)\n",
+            "Collecting gql>=0.1.0 (from wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/aa/9c/2933b7791210e00f5c26a6243198cc03af9132c29cf85e4c22cb007f171e/gql-0.1.0.tar.gz\n",
+            "Collecting python-dateutil>=2.6.1 (from wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/41/17/c62faccbfbd163c7f57f3844689e3a78bae1f403648a6afb1d0866d87fbb/python_dateutil-2.8.0-py2.py3-none-any.whl (226kB)\n",
+            "\u001b[K     |████████████████████████████████| 235kB 40.6MB/s \n",
+            "\u001b[?25hCollecting subprocess32>=3.5.3 (from wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/32/c8/564be4d12629b912ea431f1a50eb8b3b9d00f1a0b1ceff17f266be190007/subprocess32-3.5.4.tar.gz (97kB)\n",
+            "\u001b[K     |████████████████████████████████| 102kB 30.2MB/s \n",
+            "\u001b[?25hRequirement already satisfied: requests>=2.0.0 in /usr/local/lib/python3.6/dist-packages (from wandb) (2.21.0)\n",
+            "Requirement already satisfied: psutil>=5.0.0 in /usr/local/lib/python3.6/dist-packages (from wandb) (5.4.8)\n",
+            "Collecting watchdog>=0.8.3 (from wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/bb/e3/5a55d48a29300160779f0a0d2776d17c1b762a2039b36de528b093b87d5b/watchdog-0.9.0.tar.gz (85kB)\n",
+            "\u001b[K     |████████████████████████████████| 92kB 27.8MB/s \n",
+            "\u001b[?25hCollecting GitPython>=1.0.0 (from wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/ff/f8/05f58bd7852dad7edcf70a8de953b4fa39f61cdc13812ae62118be6ffa23/GitPython-3.0.3-py3-none-any.whl (453kB)\n",
+            "\u001b[K     |████████████████████████████████| 460kB 39.6MB/s \n",
+            "\u001b[?25hCollecting sentry-sdk>=0.4.0 (from wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/20/bb/376c2aa4d7dc03d878efa46d3e43de123c06c6050a500e9596463e65bfad/sentry_sdk-0.12.3-py2.py3-none-any.whl (87kB)\n",
+            "\u001b[K     |████████████████████████████████| 92kB 29.7MB/s \n",
+            "\u001b[?25hCollecting docker-pycreds>=0.4.0 (from wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/f5/e8/f6bd1eee09314e7e6dee49cbe2c5e22314ccdb38db16c9fc72d2fa80d054/docker_pycreds-0.4.0-py2.py3-none-any.whl\n",
+            "Collecting graphql-core>=0.5.0 (from gql>=0.1.0->wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/6a/11/bc4a7eb440124271289d93e4d208bd07d94196038fabbe2a52435a07d3d3/graphql_core-2.2.1-py2.py3-none-any.whl (250kB)\n",
+            "\u001b[K     |████████████████████████████████| 256kB 46.1MB/s \n",
+            "\u001b[?25hRequirement already satisfied: promise>=0.4.0 in /usr/local/lib/python3.6/dist-packages (from gql>=0.1.0->wandb) (2.2.1)\n",
+            "Requirement already satisfied: urllib3<1.25,>=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests>=2.0.0->wandb) (1.24.3)\n",
+            "Requirement already satisfied: certifi>=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests>=2.0.0->wandb) (2019.9.11)\n",
+            "Requirement already satisfied: chardet<3.1.0,>=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests>=2.0.0->wandb) (3.0.4)\n",
+            "Requirement already satisfied: idna<2.9,>=2.5 in /usr/local/lib/python3.6/dist-packages (from requests>=2.0.0->wandb) (2.8)\n",
+            "Requirement already satisfied: PyYAML>=3.10 in /usr/local/lib/python3.6/dist-packages (from watchdog>=0.8.3->wandb) (3.13)\n",
+            "Collecting argh>=0.24.1 (from watchdog>=0.8.3->wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/06/1c/e667a7126f0b84aaa1c56844337bf0ac12445d1beb9c8a6199a7314944bf/argh-0.26.2-py2.py3-none-any.whl\n",
+            "Collecting pathtools>=0.1.1 (from watchdog>=0.8.3->wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/e7/7f/470d6fcdf23f9f3518f6b0b76be9df16dcc8630ad409947f8be2eb0ed13a/pathtools-0.1.2.tar.gz\n",
+            "Collecting gitdb2>=2.0.0 (from GitPython>=1.0.0->wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/03/6c/99296f89bad2ef85626e1df9f677acbee8885bb043ad82ad3ed4746d2325/gitdb2-2.0.6-py2.py3-none-any.whl (63kB)\n",
+            "\u001b[K     |████████████████████████████████| 71kB 29.4MB/s \n",
+            "\u001b[?25hCollecting rx<3,>=1.6 (from graphql-core>=0.5.0->gql>=0.1.0->wandb)\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/33/0f/5ef4ac78e2a538cc1b054eb86285fe0bf7a5dbaeaac2c584757c300515e2/Rx-1.6.1-py2.py3-none-any.whl (179kB)\n",
+            "\u001b[K     |████████████████████████████████| 184kB 32.7MB/s \n",
+            "\u001b[?25hCollecting smmap2>=2.0.0 (from gitdb2>=2.0.0->GitPython>=1.0.0->wandb)\n",
+            "  Downloading https://files.pythonhosted.org/packages/55/d2/866d45e3a121ee15a1dc013824d58072fd5c7799c9c34d01378eb262ca8f/smmap2-2.0.5-py2.py3-none-any.whl\n",
+            "Building wheels for collected packages: shortuuid, gql, subprocess32, watchdog, pathtools\n",
+            "  Building wheel for shortuuid (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for shortuuid: filename=shortuuid-0.5.0-cp36-none-any.whl size=5499 sha256=6564a530d280075f256d62b79aad5273897aa49c6ea978de9a3bd3a1749a7b94\n",
+            "  Stored in directory: /root/.cache/pip/wheels/3f/eb/fd/69e5177f67b505e44acbd1aedfbe44b91768ee0c4cd5636576\n",
+            "  Building wheel for gql (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for gql: filename=gql-0.1.0-cp36-none-any.whl size=5541 sha256=3d81236b620af5527ef4299a849ffe4a753bb264c8d57afa5a64f7a57c2c99e5\n",
+            "  Stored in directory: /root/.cache/pip/wheels/a7/8d/65/a3247f500d675d80a01e4d2f0ee44fe99f1faef575bc2a1664\n",
+            "  Building wheel for subprocess32 (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for subprocess32: filename=subprocess32-3.5.4-cp36-none-any.whl size=6489 sha256=ca498e97121218a047cc86026af7ac28365448c8eaa595b1286056c85c7dfcdd\n",
+            "  Stored in directory: /root/.cache/pip/wheels/68/39/1a/5e402bdfdf004af1786c8b853fd92f8c4a04f22aad179654d1\n",
+            "  Building wheel for watchdog (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for watchdog: filename=watchdog-0.9.0-cp36-none-any.whl size=73652 sha256=a74ad004838fde98974eead719f0572cacbfcb91d6b03a2113f7c4b23a4eb4ef\n",
+            "  Stored in directory: /root/.cache/pip/wheels/61/1d/d0/04cfe495619be2095eb8d89a31c42adb4e42b76495bc8f784c\n",
+            "  Building wheel for pathtools (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for pathtools: filename=pathtools-0.1.2-cp36-none-any.whl size=8786 sha256=33978d16ac1ef7a873974242d7b0533aec52398b3548de4d9ded6eaf02b511a7\n",
+            "  Stored in directory: /root/.cache/pip/wheels/0b/04/79/c3b0c3a0266a3cb4376da31e5bfe8bba0c489246968a68e843\n",
+            "Successfully built shortuuid gql subprocess32 watchdog pathtools\n",
+            "\u001b[31mERROR: albumentations 0.1.12 has requirement imgaug<0.2.7,>=0.2.5, but you'll have imgaug 0.2.9 which is incompatible.\u001b[0m\n",
+            "Installing collected packages: configparser, shortuuid, rx, graphql-core, gql, python-dateutil, subprocess32, argh, pathtools, watchdog, smmap2, gitdb2, GitPython, sentry-sdk, docker-pycreds, wandb\n",
+            "  Found existing installation: python-dateutil 2.5.3\n",
+            "    Uninstalling python-dateutil-2.5.3:\n",
+            "      Successfully uninstalled python-dateutil-2.5.3\n",
+            "Successfully installed GitPython-3.0.3 argh-0.26.2 configparser-4.0.2 docker-pycreds-0.4.0 gitdb2-2.0.6 gql-0.1.0 graphql-core-2.2.1 pathtools-0.1.2 python-dateutil-2.8.0 rx-1.6.1 sentry-sdk-0.12.3 shortuuid-0.5.0 smmap2-2.0.5 subprocess32-3.5.4 wandb-0.8.12 watchdog-0.9.0\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "application/vnd.colab-display-data+json": {
+              "pip_warning": {
+                "packages": [
+                  "dateutil",
+                  "wandb"
+                ]
+              }
+            }
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dMp7LimLLZB8",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 33
+        },
+        "outputId": "d24135e4-ba73-456c-b0f4-b24ed20d2e38"
+      },
+      "source": [
+        "from keras.layers import Dense, Flatten\n",
+        "from keras.models import Sequential\n",
+        "from keras.callbacks import Callback\n",
+        "import pandas as pd\n",
+        "import numpy as np\n",
+        "import cv2\n",
+        "from PIL import Image\n",
+        "import keras\n",
+        "import subprocess\n",
+        "import os\n",
+        "\n",
+        "import wandb\n",
+        "from wandb.keras import WandbCallback"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Using TensorFlow backend.\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "4Ti6CjUVMLTo",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 67
+        },
+        "outputId": "263df4c8-f6c4-4779-86e1-ccd42662ffe3"
+      },
+      "source": [
+        "def load_fer2013():\n",
+        "    if not os.path.exists(\"fer2013\"):\n",
+        "        print(\"Downloading the face emotion dataset...\")\n",
+        "        subprocess.check_output(\"curl -SL https://www.dropbox.com/s/opuvvdv3uligypx/fer2013.tar | tar xz\", shell=True)\n",
+        "    data = pd.read_csv(\"fer2013/fer2013.csv\")\n",
+        "    pixels = data['pixels'].tolist()\n",
+        "    width, height = 48, 48\n",
+        "    faces = []\n",
+        "    for pixel_sequence in pixels:\n",
+        "        face = np.asarray(pixel_sequence.split(' '), dtype=np.uint8).reshape(width, height)\n",
+        "        face = cv2.resize(face.astype('uint8'), (width, height))\n",
+        "        faces.append(face.astype('float32'))\n",
+        "\n",
+        "    faces = np.asarray(faces)\n",
+        "    faces = np.expand_dims(faces, -1)\n",
+        "    emotions = pd.get_dummies(data['emotion']).as_matrix()\n",
+        "\n",
+        "    val_faces = faces[int(len(faces) * 0.8):]\n",
+        "    val_emotions = emotions[int(len(faces) * 0.8):]\n",
+        "    train_faces = faces[:int(len(faces) * 0.8)]\n",
+        "    train_emotions = emotions[:int(len(faces) * 0.8)]\n",
+        "    \n",
+        "    return train_faces, train_emotions, val_faces, val_emotions\n",
+        "\n",
+        "# loading dataset\n",
+        "\n",
+        "train_faces, train_emotions, val_faces, val_emotions = load_fer2013()"
+      ],
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Downloading the face emotion dataset...\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:16: FutureWarning: Method .as_matrix will be removed in a future version. Use .values instead.\n",
+            "  app.launch_new_instance()\n"
+          ],
+          "name": "stderr"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab_type": "code",
+        "id": "xrdl1jrTMe4E",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 100
+        },
+        "outputId": "92b57ecf-2b5a-43dc-e438-2afb0fa0f4e9"
+      },
+      "source": [
+        "run = wandb.init()\n",
+        "config = run.config"
+      ],
+      "execution_count": 3,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "application/javascript": [
+              "\n",
+              "        window._wandbApiKey = new Promise((resolve, reject) => {\n",
+              "            function loadScript(url) {\n",
+              "            return new Promise(function(resolve, reject) {\n",
+              "                let newScript = document.createElement(\"script\");\n",
+              "                newScript.onerror = reject;\n",
+              "                newScript.onload = resolve;\n",
+              "                document.body.appendChild(newScript);\n",
+              "                newScript.src = url;\n",
+              "            });\n",
+              "            }\n",
+              "            loadScript(\"https://cdn.jsdelivr.net/npm/postmate/build/postmate.min.js\").then(() => {\n",
+              "            const iframe = document.createElement('iframe')\n",
+              "            iframe.style.cssText = \"width:0;height:0;border:none\"\n",
+              "            document.body.appendChild(iframe)\n",
+              "            const handshake = new Postmate({\n",
+              "                container: iframe,\n",
+              "                url: 'https://app.wandb.ai/authorize'\n",
+              "            });\n",
+              "            const timeout = setTimeout(() => reject(\"Couldn't auto authenticate\"), 5000)\n",
+              "            handshake.then(function(child) {\n",
+              "                child.on('authorize', data => {\n",
+              "                    clearTimeout(timeout)\n",
+              "                    resolve(data)\n",
+              "                });\n",
+              "            });\n",
+              "            })\n",
+              "        });\n",
+              "    "
+            ],
+            "text/plain": [
+              "<IPython.core.display.Javascript object>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "wandb: ERROR Not authenticated.  Copy a key from https://app.wandb.ai/authorize\n"
+          ],
+          "name": "stderr"
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "API Key: ··········\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "wandb: Appending key for api.wandb.ai to your netrc file: /root/.netrc\n"
+          ],
+          "name": "stderr"
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "\n",
+              "            Notebook configured with <a href=\"https://wandb.com\" target=\"_blank\">W&B</a>. You can <a href=\"https://app.wandb.ai/univai-ss2019/uncategorized/runs/arojjg3s\" target=\"_blank\">open</a> the run page, or call <code>%%wandb</code>\n",
+              "            in a cell containing your training loop to display live results.  Learn more in our <a href=\"https://docs.wandb.com/docs/integrations/jupyter.html\" target=\"_blank\">docs</a>.\n",
+              "        "
+            ],
+            "text/plain": [
+              "<IPython.core.display.HTML object>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ooLdTKIwMlDv",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "config.batch_size = 32\n",
+        "config.num_epochs = 20\n",
+        "\n",
+        "input_shape = (48, 48, 1)\n",
+        "\n",
+        "num_samples, num_classes = train_emotions.shape\n",
+        "\n",
+        "train_faces /= 255.\n",
+        "val_faces /= 255."
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8v1rNBJDMQI_",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 840
+        },
+        "outputId": "4a764f07-9e7f-4908-be54-e31d26e2502a"
+      },
+      "source": [
+        "model = Sequential()\n",
+        "model.add(Flatten(input_shape=input_shape))\n",
+        "model.add(Dense(num_classes, activation=\"softmax\"))\n",
+        "\n",
+        "model.compile(optimizer='adam', loss='categorical_crossentropy',\n",
+        "metrics=['accuracy'])\n",
+        "\n",
+        "model.fit(train_faces, train_emotions, batch_size=config.batch_size,\n",
+        "        epochs=config.num_epochs, verbose=1, callbacks=[\n",
+        "            WandbCallback(data_type=\"image\", labels=[\"Angry\", \"Disgust\", \"Fear\", \"Happy\", \"Sad\", \"Surprise\", \"Neutral\"])\n",
+        "        ], validation_data=(val_faces, val_emotions))"
+      ],
+      "execution_count": 0,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:66: The name tf.get_default_graph is deprecated. Please use tf.compat.v1.get_default_graph instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:541: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:4432: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/optimizers.py:793: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:3576: The name tf.log is deprecated. Please use tf.math.log instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/math_grad.py:1250: add_dispatch_support.<locals>.wrapper (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.\n",
+            "Instructions for updating:\n",
+            "Use tf.where in 2.0, which has the same broadcast rule as np.where\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:1033: The name tf.assign_add is deprecated. Please use tf.compat.v1.assign_add instead.\n",
+            "\n",
+            "Train on 28709 samples, validate on 7178 samples\n",
+            "Epoch 1/20\n",
+            "28709/28709 [==============================] - 9s 297us/step - loss: 1.8113 - acc: 0.2822 - val_loss: 1.7594 - val_acc: 0.2885\n",
+            "Epoch 2/20\n",
+            "28709/28709 [==============================] - 4s 143us/step - loss: 1.7513 - acc: 0.3201 - val_loss: 1.8456 - val_acc: 0.3126\n",
+            "Epoch 3/20\n",
+            "28709/28709 [==============================] - 4s 147us/step - loss: 1.7249 - acc: 0.3315 - val_loss: 1.7349 - val_acc: 0.3339\n",
+            "Epoch 4/20\n",
+            "28709/28709 [==============================] - 4s 146us/step - loss: 1.7139 - acc: 0.3416 - val_loss: 1.6636 - val_acc: 0.3618\n",
+            "Epoch 5/20\n",
+            "28709/28709 [==============================] - 4s 147us/step - loss: 1.6937 - acc: 0.3457 - val_loss: 1.7677 - val_acc: 0.3181\n",
+            "Epoch 6/20\n",
+            "28709/28709 [==============================] - 4s 144us/step - loss: 1.7028 - acc: 0.3453 - val_loss: 1.6394 - val_acc: 0.3731\n",
+            "Epoch 7/20\n",
+            "28709/28709 [==============================] - 4s 145us/step - loss: 1.6846 - acc: 0.3533 - val_loss: 1.7990 - val_acc: 0.2714\n",
+            "Epoch 8/20\n",
+            "28709/28709 [==============================] - 4s 146us/step - loss: 1.6796 - acc: 0.3568 - val_loss: 1.8491 - val_acc: 0.3417\n",
+            "Epoch 9/20\n",
+            "28709/28709 [==============================] - 4s 147us/step - loss: 1.6690 - acc: 0.3580 - val_loss: 1.7939 - val_acc: 0.3155\n",
+            "Epoch 10/20\n",
+            "28709/28709 [==============================] - 4s 148us/step - loss: 1.6680 - acc: 0.3580 - val_loss: 1.7215 - val_acc: 0.3569\n",
+            "Epoch 11/20\n",
+            "28709/28709 [==============================] - 4s 146us/step - loss: 1.6618 - acc: 0.3618 - val_loss: 1.7696 - val_acc: 0.3295\n",
+            "Epoch 12/20\n",
+            "28709/28709 [==============================] - 4s 150us/step - loss: 1.6580 - acc: 0.3628 - val_loss: 1.7877 - val_acc: 0.3583\n",
+            "Epoch 13/20\n",
+            "28709/28709 [==============================] - 4s 147us/step - loss: 1.6487 - acc: 0.3664 - val_loss: 1.6962 - val_acc: 0.3344\n",
+            "Epoch 14/20\n",
+            "28709/28709 [==============================] - 4s 150us/step - loss: 1.6432 - acc: 0.3719 - val_loss: 1.8527 - val_acc: 0.3164\n",
+            "Epoch 15/20\n",
+            "28709/28709 [==============================] - 4s 149us/step - loss: 1.6466 - acc: 0.3716 - val_loss: 1.7604 - val_acc: 0.3285\n",
+            "Epoch 16/20\n",
+            "14400/28709 [==============>...............] - ETA: 1s - loss: 1.6504 - acc: 0.3662"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "OicqAfXyMQSN",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "model.save(\"emotion.h5\")"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QcFxKvl9MQVH",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hVjpLTmzMQXu",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0ukdt0wuMQaX",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
